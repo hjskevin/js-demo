@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>canvas demo</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <!-- 让浏览器支持html5和css3等新元素 -->
+</head>
+
+<body>
+  <img src="images/bg2.jpg" id="pic" title="pic" alt="pic" width="200px" height="200px">
+  <script type="text/javascript">
+    function converToGs(img) {
+      // 判断浏览器是否支持canvas
+      img.color = img.src;
+      img.grayscale = createGSCanvas(img);
+      img.onmouseover = function() {
+        this.src = this.color;
+      }
+      img.onmouseout = function() {
+        this.src = this.grayscale;
+      }
+      img.onmouseout();
+    }
+
+    function createGSCanvas(img) {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+
+      var c = ctx.getImageData(0, 0, img.width, img.height);
+      for (i = 0; i < c.height; i++) {
+        for (j = 0; j < c.width; j++) {
+          var x = (i * 4) * c.height + (j * 4);
+          var r = c.data[x];
+          var g = c.data[x + 1];
+          var b = c.data[x + 2];
+          c.data[x] = c.data[x + 1] = c.data[x + 2] = (r + g + b) / 3;
+        }
+      }
+      ctx.putImageData(c, 0, 0, 0, 0, c.width, c.height);
+      return canvas.toDataURL();
+    }
+    window.onload = function() {
+      converToGs(document.getElementById('pic'));
+    }
+  </script>
+</body>
+
+</html>

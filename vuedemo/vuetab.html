@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>vue实现简易的选项卡</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+      .active{
+        background:#eee;
+      }
+      .tabs{
+        width: 200px;
+        height: 20px;
+        font: 0;
+        padding:0;
+      }
+      .li-tab{
+        width: 50%;
+        height: 100%;
+        display: inline-block;
+        text-align:center;
+      }
+      .divTab{
+        width: 200px;
+        height: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li class="li-tab" v-for="(item,index) in tabsParam" @click="toggleTabs(index)"
+        v-bind:class="{active:index!=nowIndex}">{{item}}</li>
+      </ul>
+      <div class="divTab" v-show="nowIndex===0">我是tab1</div>
+      <div class="divTab" v-show="nowIndex===1">我是tab2</div>
+    </div>
+    <script>
+      var app=new Vue({
+        el:"#app",
+        data:{
+          tabsParam:["tab1","tab2"],
+          nowIndex:0,
+        },
+        methods:{
+          toggleTabs:function(index){
+            this.nowIndex=index;
+          },
+        }
+      })
+    </script>
+  </body>
+</html>

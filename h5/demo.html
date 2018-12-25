@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>跨文档消息传送</title>
+</head>
+<body>
+	<div>这是一个内嵌网页</div>
+	<iframe src="../canvas.html" id="myframe" frameborder="0"></iframe>
+	<script type="text/javascript">
+		//获取框架中的window
+		var o=document.getElementById("myframe").contentWindow;
+		alert(o);//object window
+		//像框架中发送消息
+		o.postMessage("Hello world","../canvas.html");
+
+		window.addEventListener("message",receiver,false);
+		function receiver(){
+			if(e.origin=="../canvas.html"){
+				//处理收到的数据
+				processMessage(event.data);
+			}
+		}
+	</script>
+</body>
+</html>
